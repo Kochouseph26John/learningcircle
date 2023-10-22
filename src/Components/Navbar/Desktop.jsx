@@ -8,7 +8,6 @@ export const DesktopMenu = ({ open }) => {
       <NavLinks Open={true} />
       <a
         href="http://mulearn.org/careers"
-        target="_blank"
         rel="noopener noreferrer"
         className="py-7 px-3 inline-block"
       >
@@ -26,21 +25,18 @@ export const Resources = ({ notificationOpen }) => {
           <ion-icon name="notifications-circle-outline"></ion-icon>
         </div>
         <div
-          className={`notifications group-hover:lg:block hover:lg:block ${
-            notificationOpen ? "block" : "hidden"
-          }`}
+          className={`notifications group-hover:lg:block hover:lg:block ${notificationOpen ? "block" : "hidden"
+            }`}
         >
           <Notification />
         </div>
       </div>
       <a
-        href="https://app.mulearn.org/user/register/"
-        target="_blank"
-        rel="noopener noreferrer"
+        href="https://app.mulearn.org/register/"
         className="py-7 px-3 inline-block"
       >
         <button className="bg-orange-400 text-white  px-6 py-2 rounded-md">
-          Join Discord
+          Join µLearn
         </button>
       </a>
       <a
@@ -74,8 +70,8 @@ export const SubMenu = ({ submenu, sublinks }) => {
           <div className="absolute mt-5 bg-white left-0  right-0 hidden group-hover:lg:block hover:lg:block w-full">
             <div className=" p-10 flex gap-x-10 addition justify-around border-t border-b">
               <div className="grid grid-cols-3 gap-10 px-10">
-                {sublinks.map((mysublinks) => (
-                  <div className="border-l pl-5 backdrop-blur-md">
+                {sublinks.map((mysublinks, index) => (
+                  <div key={index} className="border-l pl-5 backdrop-blur-md">
                     <SubHeader link={mysublinks.link} name={mysublinks.name} />
                     <SubLinks sublinks={mysublinks.sublinks} />
                   </div>
@@ -109,13 +105,10 @@ export const SubHeader = ({ link, name }) => {
 export const SubLinks = ({ sublinks }) => {
   return (
     <>
-      {sublinks.map((slink) => (
-        <div className="text-sm text-gray-600 my-2.5">
-          <a
-            href={slink.link}
-            target={slink.foreign ? "_blank" : ""}
-            rel={slink.foreign ? "noopener noreferrer" : ""}
-            className="hover:text-orange-500"
+      {sublinks.map((slink, index) => (
+        <div key={index} className="text-sm text-gray-600 my-2.5">
+
+          <a href={slink.link} target={slink.foreign ? "_blank" : ""} rel={slink.foreign ? "noopener noreferrer" : ""} className="hover:text-orange-500"
           >
             {slink.name}
           </a>

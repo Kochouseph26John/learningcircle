@@ -1,10 +1,14 @@
 import React from "react";
 import NavLinks from "./NavLinks";
 import Notification from "./Notification";
-import { links } from "./Mylinks";
+import { getLinks } from "./Mylinks";
 import SearchBar from "./SearchBar";
 import { useState } from "react";
+import { useCallback } from "react";
+import SheetAPI from "../../Utils/SheetAPI";
+import { useEffect } from "react";
 export const MobileTopBar = ({ setNotificationOpen, notificationOpen, handleScrolling, setOpen, open }) => {
+
     function menuCloseEvent() {
         setOpen(!open);
         setNotificationOpen(false);
@@ -47,19 +51,19 @@ export const MobileMenu = ({ setNotificationOpen, setOpen, handleScrolling, open
       `}
         >
             <NavLinks />
-      
-                <a
-                    href="https://mulear.org/careers"
-                    className="py-4 px-7 inline-block uppercase hover:text-orange-500 text-[13px]"
-                    onClick={() => {
-                        setOpen(false);
-                        setNotificationOpen(false);
-                        handleScrolling(true);
-                    }}
-                >
-                    Careers
-                </a>
-          
+
+            <a
+                href="https://mulearn.org/careers"
+                className="py-4 px-7 inline-block uppercase hover:text-orange-500 text-[13px]"
+                onClick={() => {
+                    setOpen(false);
+                    setNotificationOpen(false);
+                    handleScrolling(true);
+                }}
+            >
+                Careers
+            </a>
+
 
             <div className="grid justify-items-center">
                 <a
@@ -69,7 +73,7 @@ export const MobileMenu = ({ setNotificationOpen, setOpen, handleScrolling, open
                     className="py-3 px-28 "
                 >
                     <button className="bg-orange-400 text-white  px-6 py-2 rounded-md ">
-                        Join Discord
+                        Join µLearn
                     </button>
                 </a>
                 <a
@@ -106,11 +110,28 @@ export const MobileView = ({ visible, setVisibility, prev, setPrev, currentLink,
     )
 }
 export const MobileNavHeader = ({ visible, test1 }) => {
+    const [variable, setVariable] = useState([])
+    const ig = variable.map(link => {
+        if (link.parent === 'null')
+            return ({
+                name: link?.heading,
+                link: `https://learn.mulearn.org/${link?.code}`,
+            })
+        else return {}
+    })
+    const Sheet = useCallback(() => {
+        SheetAPI('https://docs.google.com/spreadsheets/d/1C7MyDDpRCIq3bnXi-bdWQrUdYMJ0_2cBkpoJ7POQA6A/edit#gid=0', 'landing_pages', setVariable)
+    }, [])
+    useEffect(() => {
+        if (variable.length <= 0)
+            Sheet()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [variable.length])
     return (
         <>
             {!visible &&
-                links.map((link) => (
-                    <div className={`px-7 py-5 text-left flex justify-between items-center }`} onClick={() => { test1(link); }}>
+                getLinks(ig).map((link, index) => (
+                    <div key={index} className={`px-7 py-5 text-left flex justify-between items-center }`} onClick={() => { test1(link); }}>
                         <h1 className="text-[13px]">{link.name}</h1>
                         <span className="text-[13px] flex items-center" onClick={() => { test1(link); }} >
                             <ion-icon name="chevron-forward-outline" />
@@ -163,7 +184,7 @@ export const MobileSubHeader = ({ currentLink, goBack }) => {
                 <ion-icon name="chevron-back-outline" />
             </span>
             <a href={currentLink.link} target="_blank" rel="noopener noreferrer">
-             <div className="text-[13px]">{currentLink.name}</div>
+                <div className="text-[13px]">{currentLink.name}</div>
             </a>
             <div></div>
         </div>
