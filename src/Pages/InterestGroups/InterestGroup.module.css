@@ -19,6 +19,17 @@
   display: none;
 }
 
+.credits {
+  text-align: center;
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+}
+
+.credits a {
+  color: #f6842c;
+}
+
 .fv_heading {
   font-family: "Noto Sans", sans-serif;
   color: #f6842c;
@@ -186,7 +197,7 @@
   font-size: 1rem;
   margin-bottom: 1rem;
   font-family: "Poppins";
-  max-width: 40rem;
+  max-width: 30rem;
 }
 
 .sv_lists {
